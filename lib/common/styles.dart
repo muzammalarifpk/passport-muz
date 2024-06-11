@@ -7,7 +7,7 @@ class PPStyle{
 
   static const Color shadow = Color(0x3F000000);
 
-  static const double radius = 10;
+  static const double borderRadius = 10;
   static const double btnHeight = 50;
   static const double blueRadius = 4;
 

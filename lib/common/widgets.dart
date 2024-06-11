@@ -1,97 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '/common/styles.dart';
-import '/common/values.dart';
 
 typedef Validator = String? Function(String?);
 
-class InputField extends StatefulWidget {
-  final String label;
-  final TextEditingController textController;
-  final String? hintText;
-  final TextInputType keyboardType;
-  final bool obscureText;
-  final List<TextInputFormatter>? inputFormatters;
-  final String? Function(String?)? validator;
-  final String? serverValidationMessage;
+class AppLogo extends StatelessWidget {
+  final double widthFactor;
+  final double heightFactor;
 
-  const InputField({
+  const AppLogo({
     super.key,
-    required this.label,
-    required this.textController,
-    this.hintText,
-    this.keyboardType = TextInputType.text,
-    this.obscureText = false,
-    this.inputFormatters,
-    this.validator,
-    this.serverValidationMessage,
+    this.widthFactor = 0.3,
+    this.heightFactor = 0.1,
   });
 
   @override
-  _InputFieldState createState() => _InputFieldState();
-}
-
-class _InputFieldState extends State<InputField> {
-  bool _showError = false;
-
-  @override
-  void initState() {
-    super.initState();
-    widget.textController.addListener(_validate);
-  }
-
-  @override
-  void dispose() {
-    widget.textController.removeListener(_validate);
-    super.dispose();
-  }
-
-  void _validate() {
-    if (_showError) {
-      setState(() {});
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Focus(
-      onFocusChange: (hasFocus) {
-        if (!hasFocus) {
-          setState(() {
-            _showError = true;
-          });
-        }
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(widget.label, style: PPStyle.labelStyle),
-          PPValues.smallSpacing,
-          TextFormField(
-            controller: widget.textController,
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              errorText: _showError
-                  ? widget.validator?.call(widget.textController.text) ?? widget.serverValidationMessage
-                  : null,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: const BorderSide(
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-            keyboardType: widget.keyboardType,
-            obscureText: widget.obscureText,
-            inputFormatters: widget.inputFormatters,
-          ),
-          PPValues.smallSpacing,
-        ],
-      ),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return SizedBox(
+      width: screenWidth * widthFactor,
+      height: screenHeight * heightFactor,
+      child: Image.asset('assets/logo.png'),
     );
   }
 }
-
 
 
 class PrimaryButton extends StatelessWidget {
@@ -115,7 +48,7 @@ class PrimaryButton extends StatelessWidget {
           end: Alignment.bottomLeft,
           colors: [PPStyle.primaryDark, PPStyle.primaryLight],
         ),
-        borderRadius: BorderRadius.circular(PPStyle.radius),
+        borderRadius: BorderRadius.circular(PPStyle.borderRadius),
         boxShadow: const [
           BoxShadow(
             color: PPStyle.shadow,
@@ -129,7 +62,7 @@ class PrimaryButton extends StatelessWidget {
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(PPStyle.radius),
+            borderRadius: BorderRadius.circular(PPStyle.borderRadius),
           ),
         ),
         onPressed: onPressed,
