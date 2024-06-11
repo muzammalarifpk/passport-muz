@@ -32,13 +32,13 @@ class InputField extends StatefulWidget {
 }
 
 class InputFieldState extends State<InputField> {
-  late bool _obscureText; // Changed from non-nullable to late initialization
+  late bool _obscureText;
   bool _showError = false;
 
   @override
   void initState() {
     super.initState();
-    _obscureText = widget.obscureText; // Initialize _obscureText here
+    _obscureText = widget.obscureText;
     widget.textController.addListener(_validate);
   }
 
@@ -74,15 +74,12 @@ class InputFieldState extends State<InputField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(widget.label, style: PPStyle.labelStyle),
-          PPValues.smallSpacing,
           TextFormField(
             controller: widget.textController,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              errorText: _showError
-                  ? widget.validator?.call(widget.textController.text) ?? widget.serverValidationMessage
-                  : null,
               border: const UnderlineInputBorder(),
+              contentPadding: const EdgeInsets.only(left: 0, top: 5, bottom: 0, right: 5),
               suffixIcon: widget.obscureText
                   ? IconButton(
                 icon: Icon(
@@ -96,7 +93,19 @@ class InputFieldState extends State<InputField> {
             obscureText: _obscureText,
             inputFormatters: widget.inputFormatters,
           ),
+
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            height: _showError ? 20.0 : 20.0,
+            child: _showError
+                ? Text(
+              widget.validator?.call(widget.textController.text) ?? widget.serverValidationMessage ?? '',
+              style: const TextStyle(color: Colors.red),
+            )
+                : const SizedBox.shrink(),
+          ),
           PPValues.mediumSpacing,
+
 
         ],
       ),

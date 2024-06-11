@@ -75,23 +75,22 @@ class PrimaryButton extends StatelessWidget {
 class TextLink extends StatelessWidget {
   final String textLabel;
   final VoidCallback onTap;
+  final TextStyle? style;
 
   const TextLink({
     super.key,
     required this.textLabel,
     required this.onTap,
+    this.style,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: SizedBox(
-        width: double.infinity, // Make it flexible to the parent width
-        child: Text(
-          textLabel,
-          style: PPStyle.forgotPasswordStyle,
-        ),
+      child: Text(
+        textLabel,
+        style: style ?? PPStyle.forgotPasswordStyle,
       ),
     );
   }

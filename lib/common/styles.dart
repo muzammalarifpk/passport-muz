@@ -1,51 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-
-class PPStyle{
+class PPStyle {
   static const Color primaryDark = Color(0xFF9747FF);
   static const Color primaryLight = Color(0xFF5A2A99);
+  static const Color textLinkColor = Color(0xFF9747FF);
 
+  static const Color primaryFontColor = Color(0xFF214078);
   static const Color shadow = Color(0x3F000000);
+  static const Color inputValue = Color(0x3F000000);
 
   static const double borderRadius = 10;
   static const double btnHeight = 50;
   static const double blueRadius = 4;
 
   // Text Styles
-  static const  TextStyle titleStyle =  TextStyle(
-    color: Color(0xFF203F78),
+  static final TextStyle titleStyle = GoogleFonts.publicSans(
     fontSize: 20,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.bold,
+    color: primaryFontColor,
     height: 1.2,
   );
 
-  static const  TextStyle labelStyle =  TextStyle(
-    color: Color(0xFF203F78),
+  static final TextStyle labelStyle = GoogleFonts.publicSans(
     fontSize: 16,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.bold,
+    color: primaryFontColor,
     height: 1.2,
   );
 
-  static const TextStyle valueStyle = TextStyle(
-    color: Color(0x009747FF),
+  static final TextStyle valueStyle = GoogleFonts.publicSans(
+    fontSize: 18,
+    fontWeight: FontWeight.normal,
+    color: inputValue,
+    height: 1.2,
+  );
+
+  static final TextStyle buttonTextStyle = GoogleFonts.publicSans(
     fontSize: 16,
     fontWeight: FontWeight.w400,
-    height: 1.2,
-  );
-
-  static const TextStyle buttonTextStyle = TextStyle(
     color: Colors.white,
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
     height: 1.2,
   );
 
-  static const  TextStyle forgotPasswordStyle = TextStyle(
+  static final TextStyle forgotPasswordStyle = GoogleFonts.publicSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
     color: Colors.black,
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
     height: 1.2,
   );
 
-
+  static final TextStyle textLinkStyle = GoogleFonts.publicSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: textLinkColor,
+    height: 1.2,
+  );
 }

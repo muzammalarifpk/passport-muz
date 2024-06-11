@@ -48,9 +48,13 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const AppLogo(), // Use the AppLogo widget
+            const AppLogo(),
             PPValues.largeSpacing,
-            const Text('SIGN IN', textAlign: TextAlign.center, style: PPStyle.titleStyle),
+            Text(
+              'SIGN IN',
+              textAlign: TextAlign.center,
+              style: PPStyle.titleStyle,
+            ),
             PPValues.largeSpacing,
             InputField(
               label: 'EMAIL ADDRESS',
@@ -80,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   print('Hello forget password.');
                 }
               },
+              style: PPStyle.textLinkStyle,
             ),
           ],
         ),
