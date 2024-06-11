@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 
 
 class PPStyle{
+  static const Color primaryDark = Color(0xFF9747FF);
+  static const Color primaryLight = Color(0xFF5A2A99);
+
+  static const Color shadow = Color(0x3F000000);
+
+  static const double radius = 10;
+  static const double btnHeight = 50;
+  static const double blueRadius = 4;
 
   // Text Styles
   static const  TextStyle titleStyle =  TextStyle(
