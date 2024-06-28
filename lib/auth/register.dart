@@ -1,12 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../common/base_scaffold.dart';
+
 import '../common/styles.dart';
 import '../common/validators.dart';
-import '../common/input_field.dart';
-import '../common/widgets.dart';
 import '../common/values.dart';
+import '../common/widgets.dart';
+import '../common/base_scaffold.dart';
+import '../common/input_field.dart';
+import '../common/form_manager.dart';
 import 'login.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -15,7 +18,7 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> with FormManager {
   final TextEditingController instagramController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -34,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? phoneServerError;
 
   void _submit() {
-    if (_formKey.currentState?.validate() ?? false) {
+    if (isFormValid) {
       // Perform the form submission logic here
       if (kDebugMode) {
         print('Form is valid, proceed with submission');
@@ -54,17 +57,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BaseScaffold(
       body: Form(
         key: _formKey,
+        onChanged: validateForm,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              PPValues.largeSpacing,
-              PPValues.largeSpacing,
               const AppLogo(),
-              PPValues.mediumSpacing,
-              const Text('CREATE YOUR ACCOUNT', textAlign: TextAlign.center,),
               PPValues.largeSpacing,
+              Text(
+                'REGISTER',
+                textAlign: TextAlign.center,
+                style: PPStyle.titleStyle,
+              ),
               PPValues.largeSpacing,
               InputField(
                 label: 'INSTAGRAM',
@@ -72,6 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'Enter your Instagram handle',
                 validator: requiredValidator,
                 serverValidationMessage: instagramServerError,
+                registerField: (key) => registerField(key, 'INSTAGRAM', 'required'),
               ),
               InputField(
                 label: 'FIRST NAME',
@@ -79,6 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'Enter your first name',
                 validator: requiredValidator,
                 serverValidationMessage: firstNameServerError,
+                registerField: (key) => registerField(key, 'FIRST NAME', 'required'),
               ),
               InputField(
                 label: 'LAST NAME',
@@ -86,6 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'Enter your last name',
                 validator: requiredValidator,
                 serverValidationMessage: lastNameServerError,
+                registerField: (key) => registerField(key, 'LAST NAME', 'required'),
               ),
               InputField(
                 label: 'EMAIL',
@@ -94,6 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 keyboardType: TextInputType.emailAddress,
                 validator: emailValidator,
                 serverValidationMessage: emailServerError,
+                registerField: (key) => registerField(key, 'EMAIL', 'email'),
               ),
               InputField(
                 label: 'PASSWORD',
@@ -102,6 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 obscureText: true,
                 validator: passwordValidator,
                 serverValidationMessage: passwordServerError,
+                registerField: (key) => registerField(key, 'PASSWORD', 'password'),
               ),
               InputField(
                 label: 'CONFIRM PASSWORD',
@@ -115,6 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return null;
                 },
                 serverValidationMessage: confirmPasswordServerError,
+                registerField: (key) => registerField(key, 'CONFIRM PASSWORD', 'password'),
               ),
               InputField(
                 label: 'PHONE NUMBER',
@@ -123,16 +134,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 keyboardType: TextInputType.phone,
                 validator: phoneValidator,
                 serverValidationMessage: phoneServerError,
+                registerField: (key) => registerField(key, 'PHONE NUMBER', 'phoneValidator'),
               ),
               PrimaryButton(
                 text: 'CONTINUE',
                 onPressed: _submit,
+                isActive: isFormValid,
               ),
               PPValues.mediumSpacing,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already have an account? ',),
+                  Text('Already have an account? ', style: PPStyle.forgotPasswordStyle),
                   TextLink(
                     textLabel: 'Log in',
                     onTap: () {
@@ -141,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         MaterialPageRoute(builder: (context) => const LoginScreen()),
                       );
                     },
-                    style: PPStyle.textLinkStyle, // Use the new text link style
+                    style: PPStyle.textLinkStyle,
                   ),
                 ],
               ),

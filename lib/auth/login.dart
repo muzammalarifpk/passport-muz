@@ -7,6 +7,7 @@ import '../common/values.dart';
 import '../common/widgets.dart';
 import '../common/base_scaffold.dart';
 import '../common/input_field.dart';
+import '../common/form_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,7 +16,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with FormManager {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? passwordServerError;
 
   void _submit() {
-    if (_formKey.currentState?.validate() ?? false) {
+    if (isFormValid) {
       // Perform the form submission logic here
       if (kDebugMode) {
         print('Form is valid, proceed with submission');
@@ -44,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BaseScaffold(
       body: Form(
         key: _formKey,
+        onChanged: validateForm,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
               keyboardType: TextInputType.emailAddress,
               validator: emailValidator,
               serverValidationMessage: emailServerError,
+              registerField: (key) => registerField(key, 'EMAIL ADDRESS', 'email'),
             ),
             InputField(
               label: 'PASSWORD',
@@ -71,10 +74,12 @@ class _LoginScreenState extends State<LoginScreen> {
               obscureText: true,
               validator: passwordValidator,
               serverValidationMessage: passwordServerError,
+              registerField: (key) => registerField(key, 'PASSWORD', 'password'),
             ),
             PrimaryButton(
               text: 'CONTINUE',
               onPressed: _submit,
+              isActive: isFormValid,
             ),
             PPValues.smallSpacing,
             TextLink(

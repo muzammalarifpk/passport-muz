@@ -26,36 +26,50 @@ class AppLogo extends StatelessWidget {
   }
 }
 
-
-class PrimaryButton extends StatelessWidget {
+class PrimaryButton extends StatefulWidget {
   final String text;
   final VoidCallback onPressed;
+  final bool isActive;
 
   const PrimaryButton({
     super.key,
     required this.text,
     required this.onPressed,
+    this.isActive = true,
   });
 
+  @override
+  State<PrimaryButton> createState() => _PrimaryButtonState();
+}
+
+class _PrimaryButtonState extends State<PrimaryButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: PPStyle.btnHeight,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: widget.isActive
+            ? const LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [PPStyle.primaryDark, PPStyle.primaryLight],
+          colors: [PPStyle.primaryLight, PPStyle.primaryDark],
+        )
+            : const LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [Colors.grey, Colors.grey],
         ),
         borderRadius: BorderRadius.circular(PPStyle.borderRadius),
-        boxShadow: const [
+        boxShadow: widget.isActive
+            ? const [
           BoxShadow(
             color: PPStyle.shadow,
             blurRadius: PPStyle.blueRadius,
             offset: Offset(0, 4),
           ),
-        ],
+        ]
+            : null,
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -65,8 +79,8 @@ class PrimaryButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(PPStyle.borderRadius),
           ),
         ),
-        onPressed: onPressed,
-        child: Text(text, style: PPStyle.buttonTextStyle),
+        onPressed: widget.isActive ? widget.onPressed : null,
+        child: Text(widget.text.toUpperCase(), style: PPStyle.buttonTextStyle),
       ),
     );
   }

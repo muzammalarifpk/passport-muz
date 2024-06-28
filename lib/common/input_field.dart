@@ -14,6 +14,7 @@ class InputField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
   final String? serverValidationMessage;
+  final void Function(GlobalKey<FormFieldState>) registerField;
 
   const InputField({
     super.key,
@@ -25,6 +26,7 @@ class InputField extends StatefulWidget {
     this.inputFormatters,
     this.validator,
     this.serverValidationMessage,
+    required this.registerField,
   });
 
   @override
@@ -32,6 +34,7 @@ class InputField extends StatefulWidget {
 }
 
 class InputFieldState extends State<InputField> {
+  final GlobalKey<FormFieldState> _fieldKey = GlobalKey<FormFieldState>();
   late bool _obscureText;
   bool _showError = false;
 
@@ -40,6 +43,7 @@ class InputFieldState extends State<InputField> {
     super.initState();
     _obscureText = widget.obscureText;
     widget.textController.addListener(_validate);
+    widget.registerField(_fieldKey);
   }
 
   @override
@@ -75,6 +79,7 @@ class InputFieldState extends State<InputField> {
         children: [
           Text(widget.label, style: PPStyle.labelStyle),
           TextFormField(
+            key: _fieldKey,
             controller: widget.textController,
             decoration: InputDecoration(
               hintText: widget.hintText,
@@ -93,7 +98,6 @@ class InputFieldState extends State<InputField> {
             obscureText: _obscureText,
             inputFormatters: widget.inputFormatters,
           ),
-
           AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             height: _showError ? 20.0 : 20.0,
@@ -105,8 +109,6 @@ class InputFieldState extends State<InputField> {
                 : const SizedBox.shrink(),
           ),
           PPValues.mediumSpacing,
-
-
         ],
       ),
     );
