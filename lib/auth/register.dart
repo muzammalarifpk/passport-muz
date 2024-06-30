@@ -1,15 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import '../common/base_scaffold.dart';
+import '../common/custom_form.dart';
+import '../common/form_manager.dart';
+import '../common/input_field.dart';
 import '../common/styles.dart';
 import '../common/validators.dart';
 import '../common/values.dart';
 import '../common/widgets.dart';
-import '../common/base_scaffold.dart';
-import '../common/input_field.dart';
-import '../common/form_manager.dart';
 import 'login.dart';
-
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -18,7 +17,7 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> with FormManager {
+class _RegisterScreenState extends State<RegisterScreen> with FormManager<RegisterScreen> {
   final TextEditingController instagramController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -55,8 +54,8 @@ class _RegisterScreenState extends State<RegisterScreen> with FormManager {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      body: Form(
-        key: _formKey,
+      body: CustomForm(
+        formKey: _formKey,
         onChanged: validateForm,
         child: SingleChildScrollView(
           child: Column(
@@ -154,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> with FormManager {
                         MaterialPageRoute(builder: (context) => const LoginScreen()),
                       );
                     },
-                    style: PPStyle.textLinkStyle,
+                    style: PPStyle.textLinkStyle, // Use the new text link style
                   ),
                 ],
               ),

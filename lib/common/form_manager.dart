@@ -20,7 +20,7 @@ mixin FormManager<T extends StatefulWidget> on State<T> {
         return passwordValidator(value) == null;
       case 'required':
         return requiredValidator(value) == null;
-       case 'phoneValidator':
+      case 'phoneValidator':
         return phoneValidator(value) == null;
       default:
         return true;

@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../common/base_scaffold.dart';
+import '../common/custom_form.dart';
+import '../common/form_manager.dart';
+import '../common/input_field.dart';
 import '../common/styles.dart';
 import '../common/validators.dart';
 import '../common/values.dart';
 import '../common/widgets.dart';
-import '../common/base_scaffold.dart';
-import '../common/input_field.dart';
-import '../common/form_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,7 +17,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with FormManager {
+class _LoginScreenState extends State<LoginScreen> with FormManager<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -43,8 +44,8 @@ class _LoginScreenState extends State<LoginScreen> with FormManager {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      body: Form(
-        key: _formKey,
+      body: CustomForm(
+        formKey: _formKey,
         onChanged: validateForm,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
