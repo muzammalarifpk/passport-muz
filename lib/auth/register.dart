@@ -25,6 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> with FormManager<Regist
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController referredByController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? instagramServerError;
@@ -34,6 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> with FormManager<Regist
   String? passwordServerError;
   String? confirmPasswordServerError;
   String? phoneServerError;
+  String? referredByServerError;
 
   void _submit() {
     if (isFormValid) {
@@ -134,6 +136,15 @@ class _RegisterScreenState extends State<RegisterScreen> with FormManager<Regist
                 validator: phoneValidator,
                 serverValidationMessage: phoneServerError,
                 registerField: (key) => registerField(key, 'PHONE NUMBER', 'phoneValidator'),
+              ),
+              InputField(
+                label: 'Referred By',
+                textController: referredByController,
+                hintText: 'Email Address of who refer you.',
+                keyboardType: TextInputType.emailAddress,
+                validator: optionalField,
+                serverValidationMessage: referredByServerError,
+                registerField: (key) => registerField(key, 'Referred By', 'optionalField'),
               ),
               PrimaryButton(
                 text: 'CONTINUE',

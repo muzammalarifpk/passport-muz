@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../common/base_scaffold.dart';
+import '../common/input_field.dart';
 import '../common/styles.dart';
 import '../common/values.dart';
 import '../common/widgets.dart';
+import '../common/validators.dart';
 
 class MainComponents extends StatefulWidget {
   const MainComponents({super.key});
@@ -17,6 +19,9 @@ class _MainComponentsState extends State<MainComponents> {
 
   bool isChecked = false;
   bool isSwitchOn = false;
+  String dropdownValue = 'Option 1';
+  String radioGroupValue = 'Radio 1';
+  double sliderValue = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +37,15 @@ class _MainComponentsState extends State<MainComponents> {
               Text('Standard Components', style: PPStyle.titleStyle),
               PPValues.largeSpacing,
 
-              // // Text Field
-              // InputField(
-              //   label: 'Sample Input',
-              //   textController: sampleController,
-              //   hintText: 'Enter text here',
-              //   validator: requiredValidator, registerField: (GlobalKey<FormFieldState<dynamic>> ) {  },
-              // ),
-              // PPValues.mediumSpacing,
+              // Text Field
+              InputField(
+                label: 'Sample Input',
+                textController: sampleController,
+                hintText: 'Enter text here',
+                validator: requiredValidator,
+                registerField: (_) {},
+              ),
+              PPValues.mediumSpacing,
 
               // Primary Button
               PrimaryButton(
@@ -98,11 +104,11 @@ class _MainComponentsState extends State<MainComponents> {
 
               // Dropdown
               DropdownButton<String>(
-                value: 'Option 1',
+                value: dropdownValue,
                 onChanged: (String? newValue) {
                   if (newValue != null) {
                     setState(() {
-                      // Handle change
+                      dropdownValue = newValue;
                     });
                   }
                 },
@@ -123,10 +129,10 @@ class _MainComponentsState extends State<MainComponents> {
                     title: const Text('Radio 1'),
                     leading: Radio<String>(
                       value: 'Radio 1',
-                      groupValue: 'Radio 1',
+                      groupValue: radioGroupValue,
                       onChanged: (String? value) {
                         setState(() {
-                          // Handle change
+                          radioGroupValue = value!;
                         });
                       },
                     ),
@@ -135,10 +141,10 @@ class _MainComponentsState extends State<MainComponents> {
                     title: const Text('Radio 2'),
                     leading: Radio<String>(
                       value: 'Radio 2',
-                      groupValue: 'Radio 1',
+                      groupValue: radioGroupValue,
                       onChanged: (String? value) {
                         setState(() {
-                          // Handle change
+                          radioGroupValue = value!;
                         });
                       },
                     ),
@@ -152,14 +158,14 @@ class _MainComponentsState extends State<MainComponents> {
                 children: [
                   const Text('Slider'),
                   Slider(
-                    value: 50,
+                    value: sliderValue,
                     min: 0,
                     max: 100,
                     divisions: 10,
-                    label: '50',
+                    label: sliderValue.round().toString(),
                     onChanged: (double value) {
                       setState(() {
-                        // Handle change
+                        sliderValue = value;
                       });
                     },
                   ),

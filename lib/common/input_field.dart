@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:passport/common/validators.dart';
 import '/common/styles.dart';
 import '/common/values.dart';
 
@@ -37,6 +39,7 @@ class InputFieldState extends State<InputField> {
   final GlobalKey<FormFieldState> _fieldKey = GlobalKey<FormFieldState>();
   late bool _obscureText;
   bool _showError = false;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -53,6 +56,14 @@ class InputFieldState extends State<InputField> {
   }
 
   void _validate() {
+    // Assuming you have your textController and validator already set up
+    String validationMessage =
+        widget.validator?.call(widget.textController.text) ??
+            widget.serverValidationMessage ??
+            '';
+
+    _hasError = validationMessage.isNotEmpty;
+
     if (_showError) {
       setState(() {});
     }
@@ -77,38 +88,75 @@ class InputFieldState extends State<InputField> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.label, style: PPStyle.labelStyle),
-          TextFormField(
-            key: _fieldKey,
-            controller: widget.textController,
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              border: const UnderlineInputBorder(),
-              contentPadding: const EdgeInsets.only(left: 0, top: 5, bottom: 0, right: 5),
-              suffixIcon: widget.obscureText
-                  ? IconButton(
-                icon: Icon(
-                  _obscureText ? Icons.visibility : Icons.visibility_off,
+          Row(
+            children: [
+              Text(widget.label, style: PPStyle.labelStyle),
+              Text(widget.validator != optionalField ? '*' : '',
+                  style: PPStyle.labelErrorStyle),
+            ],
+          ),
+          widget.validator == phoneValidator
+              ? IntlPhoneField(
+                  key: _fieldKey,
+                  controller: widget.textController,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(top: 11),
+                    hintText: widget.hintText,
+                  ),
+                  showDropdownIcon: false,
+                  keyboardType: TextInputType.phone,
+                  obscureText: _obscureText,
+                  inputFormatters: widget.inputFormatters,
+            onChanged: (phone)
+            {
+
+            },
+                )
+              : TextFormField(
+                  key: _fieldKey,
+                  controller: widget.textController,
+                  decoration: InputDecoration(
+                    // floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    hintText: widget.hintText,
+                    // labelText: widget.label,
+                    border: const UnderlineInputBorder(),
+                    contentPadding: const EdgeInsets.only(
+                        left: 0, top: 5, bottom: 0, right: 5),
+                    suffixIcon: widget.obscureText
+                        ? IconButton(
+                            icon: Icon(
+                              _obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: _togglePasswordVisibility,
+                          )
+                        : null,
+                  ),
+                  keyboardType: widget.keyboardType,
+                  obscureText: _obscureText,
+                  inputFormatters: widget.inputFormatters,
                 ),
-                onPressed: _togglePasswordVisibility,
-              )
-                  : null,
-            ),
-            keyboardType: widget.keyboardType,
-            obscureText: _obscureText,
-            inputFormatters: widget.inputFormatters,
-          ),
           AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            height: _showError ? 20.0 : 20.0,
+            duration: const Duration(milliseconds: 300),
+            // height: _hasError ? 50.0 : 10.0,
             child: _showError
-                ? Text(
-              widget.validator?.call(widget.textController.text) ?? widget.serverValidationMessage ?? '',
-              style: const TextStyle(color: Colors.red),
-            )
-                : const SizedBox.shrink(),
+                ? _hasError
+                    ? Text(
+                      widget.validator != phoneValidator ?
+                        widget.validator?.call(widget.textController.text) ??
+                            widget.serverValidationMessage ??
+                            '' : '',
+                        style: const TextStyle(color: Colors.red),
+                      )
+                    : const SizedBox(
+                        height: 10,
+                      )
+                : const SizedBox(
+                    height: 10,
+                  ),
           ),
-          PPValues.mediumSpacing,
+          PPValues.microSpacing,
         ],
       ),
     );

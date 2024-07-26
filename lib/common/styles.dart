@@ -7,6 +7,7 @@ class PPStyle {
   static const Color textLinkColor = Color(0xFF9747FF);
 
   static const Color primaryFontColor = Color(0xFF214078);
+  static const Color errorFontColor = Colors.red;
   static const Color shadow = Color(0x3F000000);
   static const Color inputValue = Color(0x3F000000);
 
@@ -26,6 +27,13 @@ class PPStyle {
     fontSize: 16,
     fontWeight: FontWeight.bold,
     color: primaryFontColor,
+    height: 1.2,
+  );
+
+  static final TextStyle labelErrorStyle = GoogleFonts.publicSans(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: errorFontColor,
     height: 1.2,
   );
 

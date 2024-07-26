@@ -38,3 +38,7 @@ String? phoneValidator(String? value) {
   }
   return null;
 }
+
+String? optionalField(String? value) {
+  return null;
+}
